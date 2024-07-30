@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catch Rabbit</title>
+    <style>
+      img {
+        width: 50px;
+        position: absolute;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Catch the Rabbit</h1>
+    <script>
+      //Заєць з"являється у випадковій позиції на вказану кількість секунд.
+      //Після цього випадково з"являється у іншій випадковій позиції. При кліку на зайця гра завершується.
+      class Rabbit {
+        constructor(imgPath, interval) {
+          this.imgPath = imgPath;
+          this.interval = interval;
+        }
+        getRandomValue(min = 0, max = 100) {
+          return min + Math.floor(Math.random() * (max - min + 1));
+        }
+        getRandomPosition() {
+          this.img.style.left = this.getRandomValue() + "%";
+          this.img.style.top = this.getRandomValue() + "%";
+        }
+        stopGame() {
+          clearInterval(this.imgPosition);
+        }
+        run(containerSelector) {
+          let img = document.createElement("img");
+          img.setAttribute("src", this.imgPath);
+          this.img = img;
+          this.img.onclick = this.stopGame.bind(this);
+          this.getRandomPosition();
+
+          this.imgPosition = setInterval(() => {
+            this.getRandomPosition();
+          }, this.interval);
+
+          if (containerSelector)
+            document.querySelector(containerSelector).append(img);
+        }
+      }
+      let game = new Rabbit("./img/rabbit.webp", 1000);
+      game.run("body");
+    </script>
+  </body>
+</html>
